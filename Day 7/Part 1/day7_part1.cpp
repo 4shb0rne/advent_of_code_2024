@@ -1,26 +1,30 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-bool evaluate(const vector<long long int>& values, long long int target, int index, long long int current) {
-    if (index == values.size()) {
-        return current == target;
+long long int findCombinationIterative(const vector<long long int>& values, long long int target) {
+    if (values.empty()) {
+        return -1; 
     }
 
-    if (evaluate(values, target, index + 1, current + values[index])) {
-        return true;
-    }
+    stack<pair<int, long long int>> states;
+    states.push({1, values[0]});
 
-    if (evaluate(values, target, index + 1, current * values[index])) {
-        return true;
-    }
+    while (!states.empty()) {
+        pair<int, long long int> state = states.top();
+        states.pop();
 
-    return false;
-}
+        int index = state.first;
+        long long int current = state.second;
 
-long long int findCombination(const vector<long long int>& values, long long int target) {
-	long long int firstValue = values[0];
-    if (evaluate(values, target, 1, firstValue)) {
-        return target;
+        if (index == values.size()) {
+            if (current == target) {
+                return target;
+            }
+            continue;
+        }
+
+        states.push(make_pair(index + 1, current + values[index]));
+        states.push(make_pair(index + 1, current * values[index]));
     }
 
     return -1;
@@ -61,7 +65,7 @@ int main() {
         long long int target = entry.first;
         const vector<long long int>& values = entry.second;
 		
-        long long int result = findCombination(values, target);
+        long long int result = findCombinationIterative(values, target);
         if (result != -1) {
             cout << "Target " << target << " can be achieved with values." << endl;
             answer += result;
