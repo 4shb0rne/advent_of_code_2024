@@ -26,16 +26,24 @@ vector<int> fixSequence(vector<int> sequence, const map<int, vector<int>>& hashT
         int key = sequence[i];
 
         if (hashTable.find(key) != hashTable.end()) {
+            //list of all numbers that should appear before the key
             const vector<int>& numbers = hashTable.at(key);
 
             for (int value : numbers) {
+                //search for index of the value
                 auto it = find(sequence.begin(), sequence.end(), value);
 
+                //if value exists
                 if (it != sequence.end()) {
+                    //calculate how far is the value
                     int valueIndex = distance(sequence.begin(), it);
 
+                    //if index is smaller than index of current number
                     if (valueIndex < i) { 
+                        //delete the value 
                         sequence.erase(sequence.begin() + valueIndex);
+                        
+                        //move it before the key
                         if (valueIndex < i) i--;
                         sequence.insert(sequence.begin() + i + 1, value);
                     }
