@@ -27,8 +27,7 @@ int countPerimeter(const vector<string>& grid, int r, int c, char type) {
 }
 
 void dfs(const vector<string>& grid, int r, int c, char type, Region& region) {
-    if (r < 0 || r >= rows || c < 0 || c >= cols || 
-        visited[r][c] || grid[r][c] != type) {
+    if (r < 0 || r >= rows || c < 0 || c >= cols || visited[r][c] || grid[r][c] != type) {
         return;
     }
     
